@@ -17,4 +17,4 @@ Online base64 encoder/decoder that supports files and text strings. Free to use,
 
 
 ## License
-This project is licensed under the [MIT License](https://github.com/marcrobledo/base64-converter?tab=MIT-1-ov-file).
+This project is licensed under the [MIT License](https://github.com/marcrobledo/base64-converter?tab=License-1-ov-file).
