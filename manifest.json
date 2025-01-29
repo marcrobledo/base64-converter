@@ -1,0 +1,32 @@
+{
+	"short_name":"Base64 Converter",
+	"name":"Base64 Converter",
+	"icons":[
+		{
+			"src": "assets/favicon114.png",
+			"sizes": "114x114",
+			"type": "image/png",
+			"density": "1.0"
+		},{
+			"src": "assets/favicon144.png",
+			"sizes": "144x144",
+			"type": "image/png",
+			"density": "1.0"
+		},{
+			"src": "assets/favicon256.png",
+			"sizes": "256x256",
+			"type": "image/png",
+			"density": "1.0"
+		},{
+			"src": "assets/favicon512maskable.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	],
+	"start_url": "./index.html",
+	"display": "standalone",
+	"orientation": "portrait",
+	"theme_color": "#2d6f3b",
+	"background_color": "#2d6f3b"
+}
