@@ -6,6 +6,7 @@ Online base64 encoder/decoder that supports files and text strings. Free to use,
 **Features:**
 * encodes ASCII text strings into Base64 data
 * encodes files into Base64 data
+* encodes pasted images into Base64
 * trims unneeded XML code when encoding SVG images
 * decodes Base64
 * shows image previews when encoding/decoding

@@ -1,6 +1,7 @@
 /*
 * Base64 Converter
 * Vanilla Javascript Base64 encoder/decoder with minimalist GUI.
+* (last update: 2025-02-13)
 * By Marc Robledo https://www.marcrobledo.com
 * Sourcecode: https://github.com/marcrobledo/base64-converter
 * License:
@@ -45,6 +46,7 @@ const LOCALE={
 		'Download file':'Descargar archivo',
 		'Base64 data':'Datos en Base64',
 		'Copy to clipboard':'Copiar al portapapeles',
+		'Copied to clipboard':'Copiado al portapapeles',
 		'Encoded to Base64':'Codificado a Base64',
 		'Trimmed XML and encoded to Base64':'XML recortado y codificado a Base64',
 		'Decoded from Base64':'Decodificado desde Base64'
@@ -154,6 +156,7 @@ function importString(evt){
 
 
 const fileReader=new FileReader();
+var fileReaderMimeType;
 fileReader.onload=function(evt){
 	const binaryString=evt.target.result;
 	if(binaryString.length>MAX_DATA_SIZE)
@@ -165,7 +168,7 @@ fileReader.onload=function(evt){
 
 	/* set data */
 	currentData.raw=rawData;
-	currentData.mimeType=document.getElementById('input-file').files[0].type || 'application/octet-stream';
+	currentData.mimeType=fileReaderMimeType;
 	currentData.binaryString=binaryString;
 	currentData.asciiString=isRawDataASCII(rawData);
 
@@ -310,8 +313,10 @@ window.addEventListener('load', function(evt){
 
 	document.getElementById('textarea-ascii').addEventListener('change', importString);
 	document.getElementById('input-file').addEventListener('change', function(evt){
-		if(this.files && this.files.length)
+		if(this.files && this.files.length){
+			fileReaderMimeType=this.files[0].type || 'application/octet-stream';
 			fileReader.readAsBinaryString(this.files[0]);
+		}
 	});
 	document.getElementById('container-preview').addEventListener('click', function(evt){
 		document.getElementById('input-file').click();
@@ -329,6 +334,20 @@ window.addEventListener('load', function(evt){
 	});
 
 	document.getElementById('btn-download').addEventListener('click', downloadFile);
+
+	document.addEventListener('paste', function(evt){
+		const items=(event.clipboardData || event.originalEvent.clipboardData).items;
+
+		for(var i=0; i<items.length; i++) {
+			if(items[i].type.indexOf('image')===0){
+				document.getElementById('radio-file').click();
+				const blob=items[i].getAsFile();
+				fileReaderMimeType=items[i].type;
+				fileReader.readAsBinaryString(blob);
+				break;
+			}
+		}
+	});
 
 
 	/* translate UI */
