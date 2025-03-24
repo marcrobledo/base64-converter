@@ -12,6 +12,7 @@ Online base64 encoder/decoder that supports files and text strings. Free to use,
 * shows image previews when encoding/decoding
 * minimalist user interface
 * 100% frontend, no files are sent to the server
+* extra feature: allows to encode raw SVG code into valid URI data
 
 ## Resources used
 * [Octicons](https://primer.style/octicons/) by GitHub Inc.

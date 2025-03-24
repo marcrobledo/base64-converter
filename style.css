@@ -104,6 +104,7 @@ h2{margin:0 0 8px;}
 	background-color:#9cf493;
 }
 .buttons{text-align:right}
+#container-ascii .buttons{text-align:left}
 
 textarea{
 	font-size:16px;

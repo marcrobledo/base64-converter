@@ -46,6 +46,7 @@ const LOCALE={
 		'Download file':'Descargar archivo',
 		'Base64 data':'Datos en Base64',
 		'Copy to clipboard':'Copiar al portapapeles',
+		'Copy SVG as encoded URI':'Copiar SVG como URI codificado',
 		'Copied to clipboard':'Copiado al portapapeles',
 		'Encoded to Base64':'Codificado a Base64',
 		'Trimmed XML and encoded to Base64':'XML recortado y codificado a Base64',
@@ -150,6 +151,9 @@ function importString(evt){
 
 	/* refresh HTML elements */
 	document.getElementById('input-file').value='';
+
+	/* show copy SVG as encoded URI button */
+	document.getElementById('buttons-clipboard-uri').style.display=currentData.mimeType==='image/svg+xml'? 'block' : 'none';
 
 	return toBase64();
 }
@@ -311,7 +315,24 @@ window.addEventListener('load', function(evt){
 	document.getElementById('radio-ascii').addEventListener('change', refreshInputContainer);
 	document.getElementById('radio-file').addEventListener('change', refreshInputContainer);
 
+	document.getElementById('textarea-ascii').addEventListener('paste', function(evt){
+		const pastedText=evt.clipboardData.getData('text').trim();
+		if(pastedText && /^(data:image\/svg\+xml,)?%3Csvg/.test(pastedText) && this.value===''){
+			evt.preventDefault();
+			this.value=window.decodeURIComponent(pastedText.replace(/ /g, '%20').replace(/^data:image\/svg\+xml,/, ''));
+			importString(evt);
+		}
+	});
 	document.getElementById('textarea-ascii').addEventListener('change', importString);
+	document.getElementById('btn-clipboard-uri').addEventListener('click', async function(evt){
+		try{
+			const textToCopy='data:image/svg+xml,'+window.encodeURIComponent(document.getElementById('textarea-ascii').value).replace(/%20/g, ' ').replace(/%22/g, '\"');
+			await navigator.clipboard.writeText(textToCopy);
+			return setStatusMessage(_('Copied to clipboard'), true);
+		}catch(err){
+			return setStatusMessage('Copy to clipboard failed: '+ err, true);
+		}
+	});
 	document.getElementById('input-file').addEventListener('change', function(evt){
 		if(this.files && this.files.length){
 			fileReaderMimeType=this.files[0].type || 'application/octet-stream';
